@@ -41,7 +41,7 @@ static void drawTitle() {
   display.display();
 }
 
-static void drawList(const char *tasks[], int taskCount, int selectedIndex,
+static void drawList(const Task tasks[], int taskCount, int selectedIndex,
                      int scrollOffset) {
   display.clearDisplay();
   drawHeader("Habits");
@@ -56,9 +56,21 @@ static void drawList(const char *tasks[], int taskCount, int selectedIndex,
     } else {
       display.setTextColor(SSD1306_WHITE);
     }
+    char name[TASK_NAME_LEN];
+    taskGetName(tasks, taskIndex, name);
     display.setCursor(4, y + 1);
-    display.print(tasks[taskIndex]);
+    display.print(name);
   }
+  display.display();
+}
+
+static void drawTaskGraph() {
+  display.clearDisplay();
+  drawHeader("Task Graph");
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(1);
+  display.setCursor(4, LIST_TOP + 1);
+  display.print("Coming soon...");
   display.display();
 }
 
@@ -72,7 +84,7 @@ static void drawSettings() {
   display.display();
 }
 
-void drawCurrentScreen(Screen screen, const char *tasks[], int taskCount,
+void drawCurrentScreen(Screen screen, const Task tasks[], int taskCount,
                        int selectedIndex, int scrollOffset) {
   switch (screen) {
   case SCREEN_TITLE:
@@ -80,6 +92,9 @@ void drawCurrentScreen(Screen screen, const char *tasks[], int taskCount,
     break;
   case SCREEN_LIST:
     drawList(tasks, taskCount, selectedIndex, scrollOffset);
+    break;
+  case SCREEN_GRAPH:
+    drawTaskGraph();
     break;
   case SCREEN_SETTINGS:
     drawSettings();

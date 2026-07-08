@@ -8,7 +8,7 @@ ISR(PCINT2_vect) {
   uint8_t portD = PIND;
   if (!(portD & (1 << PD1)))
     pressedPin = PIN_UP;
-  else if (!(portD & (1 << PD2)))
+  else if (!(portD & (1 << PD0)))
     pressedPin = PIN_DWN;
   else if (!(portD & (1 << PD3)))
     pressedPin = PIN_LET;
@@ -32,6 +32,6 @@ void setupInput() {
   pinMode(PIN_RST, INPUT_PULLUP);
 
   PCICR |= (1 << PCIE2);
-  PCMSK2 |= (1 << PCINT17) | (1 << PCINT18) | (1 << PCINT19) | (1 << PCINT20) |
+  PCMSK2 |= (1 << PCINT16) | (1 << PCINT17) | (1 << PCINT19) | (1 << PCINT20) |
             (1 << PCINT21) | (1 << PCINT22) | (1 << PCINT23);
 }
