@@ -3,18 +3,19 @@
 #include "tasks.h"
 
 const Task tasks[] PROGMEM = {
-    {"Drink water", "Drink at least 2L of water in a day", true, {18, 0}},
-    {"Morning run", "Run at least 3km", false, {6, 30}},
-    {"Read 30 min", "Read a book for at least 30 minutes", false, {21, 0}},
-    {"Sleep by 23", "Be in bed with lights off before 23:00", true, {22, 30}},
-    {"Stretch", "Full body stretching routine, 10 minutes", false, {8, 0}},
-    {"Journal", "Write at least 3 sentences about your day", false, {22, 0}},
-    {"Work on project", "Spend 1 hour on personal projects", true, {17, 0}}};
+    {"Drink water", "Drink at least 2L of water in a day", true, {18, 0}, false},
+    {"Morning run", "Run at least 3km", false, {6, 30}, true},
+    {"Read 30 min", "Read a book for at least 30 minutes", false, {21, 0}, true},
+    {"Sleep by 23", "Be in bed with lights off before 23:00", true, {22, 30}, false},
+    {"Stretch", "Full body stretching routine, 10 minutes", false, {8, 0}, false},
+    {"Journal", "Write at least 3 sentences about your day", false, {22, 0}, false},
+    {"Work on project", "Spend 1 hour on personal projects", true, {17, 0}, true}};
 const int taskCount = sizeof(tasks) / sizeof(tasks[0]);
 
 Screen currentScreen = SCREEN_TITLE;
 int selectedIndex = 0;
 int scrollOffset = 0;
+bool detailOpen = false;
 
 #define VISIBLE_ROWS 5
 
@@ -30,7 +31,14 @@ void handleInput(uint8_t pin) {
     break;
 
   case SCREEN_LIST:
-    if (pin == PIN_RHT) {
+    if (detailOpen) {
+      if (pin == PIN_MID) detailOpen = false;
+      else changed = false;
+      break;
+    }
+    if (pin == PIN_MID) {
+      detailOpen = true;
+    } else if (pin == PIN_RHT) {
       currentScreen = SCREEN_GRAPH;
     } else if (pin == PIN_LET) {
       currentScreen = SCREEN_TITLE;
@@ -64,9 +72,11 @@ void handleInput(uint8_t pin) {
     break;
   }
 
-  if (changed)
-    drawCurrentScreen(currentScreen, tasks, taskCount, selectedIndex,
+  if (changed) {
+    drawCurrentScreen(currentScreen, tasks, taskCount, selectedIndex, 
                       scrollOffset);
+    if (detailOpen) drawDetailOverlay(tasks, selectedIndex);
+  }
 }
 
 void setup() {

@@ -1,4 +1,5 @@
 #include "display.h"
+
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
 #include <Wire.h>
@@ -8,7 +9,7 @@
 #define OLED_RESET -1
 #define SCREEN_ADDRESS 0x3C
 
-#define HEADER_HEIGHT 12
+#define HEADER_HEIGHT 11
 #define ROW_HEIGHT 10
 #define LIST_TOP (HEADER_HEIGHT + 2)
 #define VISIBLE_ROWS ((SCREEN_HEIGHT - LIST_TOP) / ROW_HEIGHT)
@@ -17,12 +18,11 @@ static Adafruit_SSD1306 display(SCREEN_WIDTH, SCREEN_HEIGHT, &Wire, OLED_RESET);
 
 void setupDisplay() {
   if (!display.begin(SSD1306_SWITCHCAPVCC, SCREEN_ADDRESS)) {
-    for (;;)
-      ;
+    for (;;);
   }
 }
 
-static void drawHeader(const char *title) {
+static void drawHeader(const char* title) {
   display.fillRect(0, 0, SCREEN_WIDTH, HEADER_HEIGHT, SSD1306_WHITE);
   display.setTextColor(SSD1306_BLACK);
   display.setTextSize(1);
@@ -47,8 +47,7 @@ static void drawList(const Task tasks[], int taskCount, int selectedIndex,
   drawHeader("Habits");
   for (int i = 0; i < VISIBLE_ROWS; i++) {
     int taskIndex = scrollOffset + i;
-    if (taskIndex >= taskCount)
-      break;
+    if (taskIndex >= taskCount) break;
     int y = LIST_TOP + i * ROW_HEIGHT;
     if (taskIndex == selectedIndex) {
       display.fillRect(0, y, SCREEN_WIDTH, ROW_HEIGHT, SSD1306_WHITE);
@@ -84,20 +83,78 @@ static void drawSettings() {
   display.display();
 }
 
+static int drawWrapped(const char* text, int x, int y, int charsPerLine,
+                       int maxLines) {
+  int len = strlen(text);
+  int start = 0, line = 0;
+  while (start < len && line < maxLines) {
+    int end = start + charsPerLine;
+    if (end < len) {
+      int wb = end;
+      while (wb > start && text[wb] != ' ') wb--;
+      if (wb > start) end = wb;
+    } else {
+      end = len;
+    }
+    display.setCursor(x, y + line * 8);
+    for (int i = start; i < end; i++) display.print(text[i]);
+    start = end;
+    if (start < len && text[start] == ' ') start++;
+    line++;
+  }
+  return line;
+}
+
+void drawDetailOverlay(const Task tasks[], int selectedIndex) {
+  Task t;
+  taskGet(tasks, selectedIndex, &t);
+
+  const int WX = 4, WY = HEADER_HEIGHT + 4, WW = 120, WH = 64 - HEADER_HEIGHT - 6;
+
+  display.fillRect(WX, WY, WW, WH, SSD1306_WHITE);
+  display.fillRect(WX + 1, WY + 1, WW - 2, WH - 2, SSD1306_BLACK);
+
+  display.fillRect(WX + 1, WY + 1, WW - 2, 10, SSD1306_WHITE);
+  display.setTextSize(1);
+  display.setTextColor(SSD1306_BLACK);
+  display.setCursor(WX + 4, WY + 2);
+  display.print(t.name);
+
+  display.fillCircle(WX + WW - 7, WY + 5, 4, SSD1306_BLACK);
+  if (t.completed)
+    display.fillCircle(WX + WW - 7, WY + 5, 2, SSD1306_WHITE);
+
+  display.setTextColor(SSD1306_WHITE);
+
+  display.setCursor(WX + 4, WY + 12);
+  display.print(t.required ? "req." : "opt.");
+  
+  char timeStr[10];
+  sprintf(timeStr, "rem:%02d:%02d", t.reminder.hour, t.reminder.minute);
+  display.setCursor(WX + WW - (9 * 6) - 4, WY + 12);
+  display.print(timeStr);
+  display.drawFastHLine(WX, WY + 20, WW, SSD1306_WHITE);
+  
+  display.setCursor(WX + 4, WY + 22);
+  drawWrapped(t.description, WX + 4, WY + 22, 17, 3);
+
+  display.display();
+}
+
 void drawCurrentScreen(Screen screen, const Task tasks[], int taskCount,
                        int selectedIndex, int scrollOffset) {
   switch (screen) {
-  case SCREEN_TITLE:
-    drawTitle();
-    break;
-  case SCREEN_LIST:
-    drawList(tasks, taskCount, selectedIndex, scrollOffset);
-    break;
-  case SCREEN_GRAPH:
-    drawTaskGraph();
-    break;
-  case SCREEN_SETTINGS:
-    drawSettings();
-    break;
+    case SCREEN_TITLE:
+      drawTitle();
+      break;
+    case SCREEN_LIST:
+      drawList(tasks, taskCount, selectedIndex, scrollOffset);
+      break;
+    case SCREEN_GRAPH:
+      drawTaskGraph();
+      break;
+    case SCREEN_SETTINGS:
+      drawSettings();
+      break;
   }
 }

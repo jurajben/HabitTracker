@@ -15,9 +15,13 @@ struct Task {
   char description[TASK_DESC_LEN];
   bool required;
   ReminderTime reminder;
+  bool completed;
 };
 
-// Read task name from PROGMEM into a caller-supplied buffer
 inline void taskGetName(const Task* tasks, int i, char* buf) {
   memcpy_P(buf, tasks[i].name, TASK_NAME_LEN);
+}
+
+inline void taskGet(const Task* tasks, int i, Task* out) {
+  memcpy_P(out, &tasks[i], sizeof(Task));
 }
