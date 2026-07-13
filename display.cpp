@@ -141,6 +141,46 @@ void drawDetailOverlay(const Task tasks[], int selectedIndex) {
   display.display();
 }
 
+void drawReminderScreen(const Task tasks[], int taskCount, uint8_t hour, uint8_t minute) {
+  display.clearDisplay();
+  drawHeader("Reminder:");
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(1);
+
+  int y = LIST_TOP;
+  int found = 0;
+  Task t;
+  for (int i = 0; i < taskCount && y < SCREEN_HEIGHT; i++) {
+    taskGet(tasks, i, &t);
+    if (t.reminder.hour == hour && t.reminder.minute == minute) {
+      display.setCursor(4, y + 1);
+      display.print(t.name);
+      y += ROW_HEIGHT;
+      found++;
+    }
+  }
+
+  if (found == 0) {
+    display.setCursor(4, LIST_TOP + 1);
+    display.print("Time to check in!");
+  }
+
+  display.display();
+}
+
+void drawMessage(const char *line1, const char *line2) {
+  display.clearDisplay();
+  display.setTextColor(SSD1306_WHITE);
+  display.setTextSize(1);
+  display.setCursor(4, 20);
+  display.print(line1);
+  if (line2) {
+    display.setCursor(4, 32);
+    display.print(line2);
+  }
+  display.display();
+}
+
 void drawCurrentScreen(Screen screen, const Task tasks[], int taskCount,
                        int selectedIndex, int scrollOffset) {
   switch (screen) {

@@ -25,3 +25,12 @@ inline void taskGetName(const Task* tasks, int i, char* buf) {
 inline void taskGet(const Task* tasks, int i, Task* out) {
   memcpy_P(out, &tasks[i], sizeof(Task));
 }
+
+inline void taskGetReminder(const Task* tasks, int i, ReminderTime* out) {
+  memcpy_P(out, &tasks[i].reminder, sizeof(ReminderTime));
+}
+
+inline void buildReminderTimes(const Task* tasks, int taskCount, ReminderTime* out) {
+  for (int i = 0; i < taskCount; i++)
+    taskGetReminder(tasks, i, &out[i]);
+}
