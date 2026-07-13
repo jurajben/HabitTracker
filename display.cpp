@@ -1,4 +1,5 @@
 #include "display.h"
+#include "rtc.h"
 
 #include <Adafruit_GFX.h>
 #include <Adafruit_SSD1306.h>
@@ -28,6 +29,11 @@ static void drawHeader(const char* title) {
   display.setTextSize(1);
   display.setCursor(4, 2);
   display.print(title);
+  DateTime now = rtc.now();
+  char date[6];
+  sprintf(date, "%02d/%02d", now.day(), now.month());
+  display.setCursor(SCREEN_WIDTH - 34, 2);
+  display.print(date);
 }
 
 static void drawTitle() {
@@ -49,16 +55,23 @@ static void drawList(const Task tasks[], int taskCount, int selectedIndex,
     int taskIndex = scrollOffset + i;
     if (taskIndex >= taskCount) break;
     int y = LIST_TOP + i * ROW_HEIGHT;
-    if (taskIndex == selectedIndex) {
+    bool selected = (taskIndex == selectedIndex);
+    bool completed = taskGetCompleted(tasks, taskIndex);
+    uint16_t fg = selected ? SSD1306_BLACK : SSD1306_WHITE;
+    if (selected) {
       display.fillRect(0, y, SCREEN_WIDTH, ROW_HEIGHT, SSD1306_WHITE);
-      display.setTextColor(SSD1306_BLACK);
-    } else {
-      display.setTextColor(SSD1306_WHITE);
     }
     char name[TASK_NAME_LEN];
     taskGetName(tasks, taskIndex, name);
+    display.setTextColor(fg);
     display.setCursor(4, y + 1);
     display.print(name);
+    int cx = SCREEN_WIDTH - 7, cy = y + ROW_HEIGHT / 2;
+    if (completed) {
+      display.fillCircle(cx, cy, 3, fg);
+    } else {
+      display.drawCircle(cx, cy, 3, fg);
+    }
   }
   display.display();
 }

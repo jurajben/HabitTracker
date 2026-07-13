@@ -30,6 +30,12 @@ inline void taskGetReminder(const Task* tasks, int i, ReminderTime* out) {
   memcpy_P(out, &tasks[i].reminder, sizeof(ReminderTime));
 }
 
+inline bool taskGetCompleted(const Task* tasks, int i) {
+  bool v;
+  memcpy_P(&v, &tasks[i].completed, sizeof(bool));
+  return v;
+}
+
 inline void buildReminderTimes(const Task* tasks, int taskCount, ReminderTime* out) {
   for (int i = 0; i < taskCount; i++)
     taskGetReminder(tasks, i, &out[i]);
