@@ -1,3 +1,4 @@
+#include "buzzer.h"
 #include "display.h"
 #include "input.h"
 #include "rtc.h"
@@ -14,7 +15,7 @@ const Task tasks[] PROGMEM = {
     {"Morning run", "Run at least 3km", false, {REM_H(1), REM_M(1)}, true},
     {"Read 30 min", "Read a book for at least 30 minutes", false, {21, 0}, true},
     {"Sleep by 23", "Be in bed with lights off before 23:00", true, {REM_H(3), REM_M(3)}, false},
-    {"Stretch", "Full body stretching routine, 10 minutes", false, {8, 0}, false},
+    {"Stretch", "Full body stretching routine, 10 minutes", false, {8, 0}, true},
     {"Journal", "Write at least 3 sentences about your day", false, {22, 0}, false},
     {"Work on project", "Spend 1 hour on personal projects", true, {17, 0}, true}};
 const int taskCount = sizeof(tasks) / sizeof(tasks[0]);
@@ -111,6 +112,7 @@ void handleInput(uint8_t pin) {
 
 void setup() {
   setupInput();
+  setupBuzzer();
   setupDisplay();
 
   setupRTC();
@@ -140,6 +142,7 @@ void loop() {
       setNextAlarm(reminders, taskCount);
     } else {
       reminderTriggered = true;
+      buzzReminder();
       drawReminderScreen(tasks, taskCount, now.hour(), now.minute());
       setNextAlarm(reminders, taskCount);
     }
