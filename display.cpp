@@ -134,7 +134,7 @@ void drawDetailOverlay(const Task tasks[], int selectedIndex) {
   display.print(t.name);
 
   display.fillCircle(WX + WW - 7, WY + 5, 4, SSD1306_BLACK);
-  if (t.completed)
+  if (taskCompleted[selectedIndex])
     display.fillCircle(WX + WW - 7, WY + 5, 2, SSD1306_WHITE);
 
   display.setTextColor(SSD1306_WHITE);

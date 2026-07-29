@@ -26,6 +26,8 @@ int scrollOffset = 0;
 bool detailOpen = false;
 bool reminderTriggered = false;
 
+bool taskCompleted[7] = {};
+
 
 // Debug set of reminders
 ReminderTime reminders[taskCount] = {
@@ -62,12 +64,14 @@ void handleInput(uint8_t pin) {
     break;
 
   case SCREEN_LIST:
-    if (detailOpen) {
+    if (pin == PIN_SET) {
+      taskCompleted[selectedIndex] = true;
+    } else if (pin == PIN_RST) {
+      taskCompleted[selectedIndex] = false;
+    } else if (detailOpen) {
       if (pin == PIN_MID) detailOpen = false;
       else changed = false;
-      break;
-    }
-    if (pin == PIN_MID) {
+    } else if (pin == PIN_MID) {
       detailOpen = true;
     } else if (pin == PIN_RHT) {
       currentScreen = SCREEN_GRAPH;
@@ -114,6 +118,12 @@ void setup() {
   setupInput();
   setupBuzzer();
   setupDisplay();
+
+  for (int i = 0; i < taskCount; i++) {
+    Task t;
+    taskGet(tasks, i, &t);
+    taskCompleted[i] = t.completed;
+  }
 
   setupRTC();
   rtc.adjust(DateTime(__DATE__, __TIME__));
