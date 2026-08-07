@@ -1,3 +1,14 @@
+# KiCad
+*.kicad_prl
+*-backups/
+fp-info-cache
+*.bak
+
+# Arduino / C++
+compile_commands.json
+*.o
+*.elf
+*.hex
 .clangd
 .clang-format
 compile_commands.json
