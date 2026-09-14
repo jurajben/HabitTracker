@@ -2322,11 +2322,11 @@
 		(uuid "9d703823-f9d3-4542-af45-1c7be11586cc")
 	)
 	(no_connect
-		(at 57.15 110.49)
+		(at 72.39 110.49)
 		(uuid "a409b357-aed0-4dbe-a755-c43012085215")
 	)
 	(no_connect
-		(at 64.77 86.36)
+		(at 80.01 86.36)
 		(uuid "b7633f0d-6525-4058-9dba-4ed00cdad003")
 	)
 	(no_connect
@@ -2334,7 +2334,7 @@
 		(uuid "d3307a94-36a5-4fd1-b10a-af0bdd5cb3f1")
 	)
 	(no_connect
-		(at 67.31 110.49)
+		(at 82.55 110.49)
 		(uuid "f11abfc8-7b18-4ab3-9960-9cc18115faee")
 	)
 	(no_connect
@@ -2342,7 +2342,7 @@
 		(uuid "f349bbdf-4391-487d-aeb1-ddd9c5a37c68")
 	)
 	(no_connect
-		(at 59.69 86.36)
+		(at 74.93 86.36)
 		(uuid "f48220bc-7f0d-4a79-a3fa-584129c6049c")
 	)
 	(no_connect
@@ -2409,7 +2409,7 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 86.36) (xy 67.31 74.93)
+			(xy 82.55 86.36) (xy 82.55 74.93)
 		)
 		(stroke
 			(width 0)
@@ -2439,7 +2439,7 @@
 	)
 	(wire
 		(pts
-			(xy 100.33 69.85) (xy 113.03 69.85)
+			(xy 107.95 69.85) (xy 113.03 69.85)
 		)
 		(stroke
 			(width 0)
@@ -2609,16 +2609,6 @@
 	)
 	(wire
 		(pts
-			(xy 67.31 74.93) (xy 74.93 74.93)
-		)
-		(stroke
-			(width 0)
-			(type default)
-		)
-		(uuid "50fee946-a99e-4165-8e38-6bd26b15cb1d")
-	)
-	(wire
-		(pts
 			(xy 184.15 124.46) (xy 184.15 120.65)
 		)
 		(stroke
@@ -2679,7 +2669,7 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 86.36) (xy 57.15 69.85)
+			(xy 72.39 86.36) (xy 72.39 69.85)
 		)
 		(stroke
 			(width 0)
@@ -2729,7 +2719,7 @@
 	)
 	(wire
 		(pts
-			(xy 57.15 69.85) (xy 74.93 69.85)
+			(xy 72.39 69.85) (xy 82.55 69.85)
 		)
 		(stroke
 			(width 0)
@@ -3059,7 +3049,7 @@
 	)
 	(wire
 		(pts
-			(xy 100.33 74.93) (xy 113.03 74.93)
+			(xy 107.95 74.93) (xy 113.03 74.93)
 		)
 		(stroke
 			(width 0)
@@ -4031,7 +4021,7 @@
 	)
 	(symbol
 		(lib_id "parts:TP4056")
-		(at 62.23 99.06 180)
+		(at 77.47 99.06 180)
 		(unit 1)
 		(body_style 1)
 		(exclude_from_sim no)
@@ -4041,7 +4031,7 @@
 		(dnp no)
 		(uuid "3d741d5f-e4ca-47b1-8ffc-77a7a821ebc2")
 		(property "Reference" "U5"
-			(at 54.61 100.076 0)
+			(at 69.85 100.076 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4052,7 +4042,7 @@
 			)
 		)
 		(property "Value" "TP4056"
-			(at 51.816 97.79 0)
+			(at 67.056 97.79 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4062,7 +4052,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 62.23 99.06 0)
+			(at 77.47 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4073,7 +4063,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 62.23 99.06 0)
+			(at 77.47 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4084,7 +4074,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 62.23 99.06 0)
+			(at 77.47 99.06 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4924,7 +4914,7 @@
 	)
 	(symbol
 		(lib_id "parts:MT3608")
-		(at 87.63 72.39 0)
+		(at 95.25 72.39 0)
 		(mirror y)
 		(unit 1)
 		(body_style 1)
@@ -4935,7 +4925,7 @@
 		(dnp no)
 		(uuid "ffcbefb0-f18b-4123-b3b8-b8ba4d59d5f5")
 		(property "Reference" "U4"
-			(at 87.63 63.5 0)
+			(at 95.25 63.5 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4945,7 +4935,7 @@
 			)
 		)
 		(property "Value" "MT3608"
-			(at 87.63 66.04 0)
+			(at 95.25 66.04 0)
 			(show_name no)
 			(do_not_autoplace no)
 			(effects
@@ -4955,7 +4945,7 @@
 			)
 		)
 		(property "Footprint" ""
-			(at 87.63 72.39 0)
+			(at 95.25 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4966,7 +4956,7 @@
 			)
 		)
 		(property "Datasheet" ""
-			(at 87.63 72.39 0)
+			(at 95.25 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
@@ -4977,7 +4967,7 @@
 			)
 		)
 		(property "Description" ""
-			(at 87.63 72.39 0)
+			(at 95.25 72.39 0)
 			(hide yes)
 			(show_name no)
 			(do_not_autoplace no)
