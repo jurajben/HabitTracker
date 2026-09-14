@@ -3,6 +3,7 @@
 *-backups/
 fp-info-cache
 *.bak
+*.lck
 
 # Arduino / C++
 compile_commands.json
